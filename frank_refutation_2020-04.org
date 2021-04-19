@@ -213,7 +213,6 @@ estimate for an /individual age/. To do this, I used the following method per ra
   population over the range of 85-100yrs.
 
 #+begin_src R :session r :exports none :results silent :eval no
-# default reading in of 2019 county-level Census data for MI
 mi_pop <- read_csv("data/census/mi_pop_census.csv") %>%
   select(3:7, 25, 19, 31, 34, 37, 52, 55, 58, 61, 64,
          67, 70, 73, 76, 79, 82, 85, 88, 91) %>%
@@ -273,7 +272,6 @@ Dr. Frank's plot, we can compare the two results:
 #+name: pop-compare1
 #+header: :file ./plots/antrim-pop-compare.pdf :width 9 :height 5
 #+begin_src R :session r :exports results :results file graphics :eval no
-# plotting census population vs. Dr. Frank's for Antrim
 mi_pop %>%
   filter(CTYNAME=="Antrim County") %>%
   select(CTYNAME, age_i, val_i, src) %>%
@@ -300,7 +298,6 @@ all key points.
 #+name: pop-compare2
 #+header: :file ./plots/antrim-pop-compare2.pdf :width 9 :height 5
 #+begin_src R :session r :exports results :results file graphics :eval no
-# re-processing MI census data to adjust to Dr. Frank's key points per age range
 mi_pop <- mi_pop %>%
   group_by(CTYNAME) %>%
   mutate(age_i = c(18, seq(23, 83, by=5), 92),
@@ -1219,7 +1216,6 @@ us_pop_2010 <- read_csv("data/census/us_pop_groups.csv", skip=10, n_max=20,
   rename(sex=name) %>%
   pivot_longer(cols=!sex)
 
-
 smk <- read_csv("data/misc/gallup_smoking_males_2009.csv",
          col_names=c("age", "perc")) %>%
   add_column(sex="male") %>%
@@ -1280,7 +1276,7 @@ cor(smk_drv$pred, smk_drv$drv)
 #+begin_src R :session r :exports none :results output :eval no
 smk_drv %>%
   mutate(error = (pred-drv)/drv) %>%
-  summarise(rmse_perc = sqrt(sum(error**2)/length(error))
+  summarise(rmse_perc = sqrt(sum(error**2)/length(error)))            
 #+end_src
 
 #+RESULTS:
@@ -1300,7 +1296,7 @@ smk_drv %>%
                      breaks=1:11,
                      labels=smk_drv %>% pull(age_grp)) +
   scale_color_discrete("", breaks=c("smk", "drv", "pred"),
-                       labels=c("smokers", "drivers", "predicted drivers")) +
+                       labels=c("female smokers", "actual drivers", "predicted drivers")) +
   scale_y_continuous("population") +
   theme_bw() 
 #+end_src
