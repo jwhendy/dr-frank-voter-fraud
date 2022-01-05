@@ -37,19 +37,19 @@ against Atrim County, Michigan.[fn:1] The theory may be distilled as follows:
 - bloated voter rolls (number of registered voters) in various Michigan counties
   feature counts at or exceeding the known 18+ population for those counties
 - a 6th order polynomial (referred to as a "key") can be fit such that the registered
-  voters per age, the county turnout, and this key may used to accurately predict the
+  voters by age, the mean county turnout, and this key may used to accurately predict the
   reported votes per age in that county
 - this finding serves as evidence of a nationwide voter fraud mechanism: "phantom ballots"
   are injected into to the true vote count in proportion to the key, which is uniquely
   programmed by each state according to their demographics
-- phantom ballots are injected predominantly on bahalf of young voters; the gap between
-  registration levels (high) and turnout rates (low) for this demographic creates a
-  "credit line" that can be drawn from during an election
+- these phantom ballots are injected predominantly on behalf of young voters; the gap
+  between registration levels (high) and turnout rates (low) for this demographic creates a
+  "credit line" of fake votes that can be drawn from during an election
 
 *tl;dr:* this theory amounts to Dr. Frank expressing surprise that the age demographics of
 registered voters and votes cast /both/ correlate to the age demographics of the
-overall population. In summary, this theory is precisely an age-based analog of this
-trivial phenomenon:[fn:2] 
+overall population. In summary, this theory is an age-based analog of this trivial
+phenomenon:[fn:2]  
 
 #+begin_center
 #+attr_latex: :width 0.5\textwidth
@@ -58,13 +58,13 @@ trivial phenomenon:[fn:2]
 
 * Claims in detail
 
-The brief formally summarizes the claim as follows (pgs 3-4):
+The legal brief formally summarizes the claim as follows (pgs 3-4):
 
 #+begin_export latex
 \begin{tabular}{p{0.1cm}|p{0.85\textwidth}}
  & To be clear, at least four (4) of the so-called battleground states
 have implemented an algorithm used to regulate and shift votes in the 2020 elections. These
-algorithms are unique to each particular state. [... rant about the difficulty in working with
+algorithms are unique to each particular state. [... rant about the difficulty working with
 the Michigan Qualified Voter File structure ...] Nevertheless, after countless hours of work
 going through the Michigan database, Plaintiff's expert, Douglas G. Frank, PhD, has
 uncovered the algorithm (a sixth degree polynomial).
@@ -72,7 +72,6 @@ uncovered the algorithm (a sixth degree polynomial).
 #+end_export
 
 The following data sources are cited for Dr. Frank's analysis (pg 5):
-
 
 #+begin_export latex
 \begin{tabular}{p{0.1cm}|p{0.85\textwidth}}
@@ -99,7 +98,7 @@ We are given the following list of core conclusions drawn from Dr. Frank's findi
    \item There are over 66,000 ballots recorded that are not associated with a registered voter.$\dagger$
    
    \item The ability to predict ballot demographics with such remarkable precision (average correlation coefficient of
-   R = 0.0997 demonstrates the activity of a regulating algorithm.
+   R = 0.997 demonstrates the activity of a regulating algorithm.
 
    \item This confirms, as seen in several other states, that ballots are being harvested
    at the precinct level, regulated at the county level, and determined at the state level.
@@ -120,7 +119,7 @@ We are given the following list of core conclusions drawn from Dr. Frank's findi
 
 Moving on to the mechanism of this theory, we are informed that each state has a
 sixth degree polynomial "key" which "unlocks the door and uncovers the ability to
-manipulate data and results," and Mighican's key is presented as an example (pg 7):
+manipulate data and results," and Michigan's key is presented as an example (pg 7):
 
 #+begin_center
 #+attr_latex: :width 0.7\textwidth
@@ -156,14 +155,14 @@ This belief will be revealed as confused in the sections that follow.
 * Tools used
 
 Transparency and reproducibility are lauded among the scientific
-community, however in my experience this is not the case among fraud theoristts.[fn:16]
+community, however in my experience this is not the case among fraud theorists.[fn:16]
 Data is not shared, methods are only vaguely described, and I have yet to see a link to
 reproducible code. As a result, reproduction entails an exercise in data hunting and reverse
 engineering, which is what must be done here.
 
 This analysis was conducted using =R=, a statistical programming language, with code
 embedded in-line in this document using Org-mode.[fn:5][fn:17] Since no data was
-shared, screnshots of the plots in the DePerno brief were taken, and WebPlotDigitizer
+shared, screenshots of the plots in the DePerno brief were taken, and WebPlotDigitizer
 was used to extract raw data approximations from each curve.[fn:7] Methods will be
 discussed transparently here, with full code and data available on github for reproduction
 (corrections welcome).[fn:6]  
@@ -176,7 +175,7 @@ After listing the sources, the brief contains the following quote (pg 5):
 
 #+begin_export latex
 \begin{tabular}{p{0.1cm}|p{0.85\textwidth}}
- & The blue, black, and red lines on the graphs are data. It is not speculative or calculated.
+& The blue, black, and red lines on the graphs are data. It is not speculative or calculated.
  It is completely 100\% data.
 \end{tabular}
 #+end_export
@@ -200,13 +199,13 @@ granular estimates more challenging vs. the national or state level.
 
 The data believed to be used by Dr. Frank was obtained in an effort to reproduce the
 county populations shown.[fn:4] The data contains population by groups,
-e.g. =AGE5559_TOT= correponding to total population for 55-59yr olds. The data
+e.g. =AGE5559_TOT= corresponding to total population for 55-59yr olds. The data
 conveniently contains both =AGE2024_TOT= /and/ =AGE1824_TOT=, from which we can compute
 the 18-19yr old population. Age ranges are reported in 5yr increments except the computed
 18-19yr old range and =AGE85PLUS_TOT=, representing 85+ yrs of age. 
 
-To reproduce Dr. Frank's plots, we must scale population totals for an /age range/ into an
-estimate for an /individual age/. To do this, I used the following method per range:
+To reproduce Dr. Frank's plots, we must convert population totals for an /age range/ into an
+estimates for an /individual age/. To do this, I used the following method per range:
 - ~x = (min_age + max_age)/2~ (mean age for the range)
 - ~y = population / (max_age - min_age)~ (total divided by number of ages represented)
 - for the 85+ age group, ~x=92.5~ and ~y=population/15~ were used to distribute the
@@ -289,10 +288,10 @@ mi_pop %>%
 #+RESULTS: pop-compare1
 [[file:./plots/antrim-pop-compare.pdf]]
 
-This checks out delightfully well, and with some guess and check it appears that
-Dr. Frank used =[23, 28, ..., 83, 91]= for the =x= values for each age group. Other than
+This works out delightfully well, and with some guess and check it appears that
+Dr. Frank used =[23, 28, ..., 83, 91]= for the =x= values of each age group. Other than
 disagreement about the low end (perhaps he did not compute the 18-19yr olds
-specifically as I did) and the details of his smoothed curve, we have ~100% alignment on
+specifically as I did) and the smoothing method he used, we have near perfect alignment on
 all key points. 
 
 #+name: pop-compare2
@@ -326,7 +325,7 @@ mi_pop %>%
 
 Why does this matter? For one, it serves as a sanity check on reverse engineering what's
 been shown. It's also highlighting that the blue curve is /not/ presenting the raw data
-as-is, but scaling and smoothing aggregate data while presenting it as the de-facto
+as-is, but scaling and smoothing aggregate data while presenting it as the de facto
 population for individual ages in each county. This will become more important later.
 
 ** Registrations > population
@@ -345,7 +344,7 @@ election to obtain the desired result. The brief puts it like so (pg 12):
  younger people. We can see that in the disparity between the black and red line on the left side
  of the graph. And that becomes progressively lower as the chart moves right. The younger
  people are the least reliable; the algorithm tilts to the younger ages because the less
- reliable voters will give the most shadow ballows. Think of the gap as a "credit line" that can
+ reliable voters will give the most shadow ballots. Think of the gap as a "credit line" that can
  be drawn on at any time using the algorithm.
 \end{tabular}
 #+end_export
@@ -356,21 +355,21 @@ To the initial shock value of this finding, let's immediately point out that the
 statements are worlds apart:
 
 - there were more registered voters than voting aged population
-- there were more votes than voting aged population (or registered voters)
+- there were more /votes/ than the voting aged population (or registered voters)
 
 One of these requires process improvement, the other constitutes fraud. Also, let's be
-clear that this is /not a new problem/. Using this to fuel suspicion in 2020 also
+clear that this is not a new problem. Using this to fuel suspicion in 2020 also
 implicates 2016.[fn:8] And 2006.[fn:9] And Texas.[fn:34] In my experience, the
 anticipated response to this is embracing that all prior elections /have/ been controlled;
-this is the only way to continue scrutiny of the 2020 election while seeming logically
-consistent (though I have seen no calls to audit 2016, nor anyone running these
-anaylses on 2016 data). In any case, it's good to recall what's being /shown/ vs. merely
-alluded to.[fn:20]
+this is the only way to maintain logical consistency while scrutinizing the 2020
+election (though I have seen no calls to audit 2016, nor anyone running these analyses on
+2016 data). In any case, it's good to recall what's being /shown/ vs. merely alluded
+to.[fn:20]
 
 ** The function of the key
 
 Let us accept this "young voter credit line" at face value, reminding ourselves of how
-this algorithm supposedly works. The plot of the MI key tells us, "The ballot 
+this algorithm supposedly works. The legal brief tells us, "The ballot 
 demographics for a county equals the product of the Key, the registration demographics,
 and the turnout." (pg 7) We are also given this additional explanation (pg 11):
 
@@ -382,23 +381,22 @@ and the turnout." (pg 7) We are also given this additional explanation (pg 11):
 #+end_export
 
 So, given some registered voters for an age, =reg_n=, the county =turnout=, and the
-value from the polynomial for that age, =key=, the predicted votes are: =reg_n * turnout * key=.
+value of the polynomial for that age, =key=, the predicted votes are: =reg_n * turnout * key=.
 
 For this injection theory to make sense, the following additional points must be true:
 - the reported votes (red) consist of some number of real votes /and/ some number
-  of fake votes injected on behalf of young people who didn't really vote
+  of fake votes injected on behalf of [mostly] young people who didn't really vote
 - thus, the real votes on election night were /lower/ than the red line; the true count
   would be what is shown in red /minus/ the number of injected shadow ballots
-- the key commits fraud by harvesting shadow ballots from the bloated registration counts
-  and injecting them among real votes; something lower than the red line is reality, and
-  th algorithm shifted that result /away/ from reality by moving the count /toward/ the black line
+- put one more way, reality is something lower than the red line and the algorithm shifted
+  the result /away/ from reality and /toward/ the black line of inflated registrations
 
 However, go look at the key. It quickly /decreases/ to <1 for the entire range of 20-50yrs
 old. Let's walk through what that means: 
 - I have some number of registered voters for e.g. age 25
 - I multiply these registered voters by 0.618, the turnout for Antrim County
 - I /further/ multiply that by ~0.8, the value of the key for age 25, to obtain my prediction
-- if you want to predict votes for 75yr olds, you use the same process, but your final
+- if you want to predict votes for 75yr olds, you use the same county turnout value, but your final
   multiplier will be a key value of /~1.2/.  
 
 Recall that the key is literally synonymous with the statewide manipulation algorithm used
@@ -422,7 +420,7 @@ nine counties analyzed:[fn:12]
 |                | *Dr. Frank* |           |            | *Official* | *Computed* |          |
 | *County*       | registered  | 18+ pop   | turnout, % | turnout    |   % of reg | % of pop |
 |----------------+-------------+-----------+------------+------------+------------+----------|
-| Amtrim         | 24,118      | 19,222    |       61.8 | 16,044     |       66.5 |     83.5 |
+| Antrim         | 24,118      | 19,222    |       61.8 | 16,044     |       66.5 |     83.5 |
 | Barry          | 48,628      | 48,094    |       71.8 | 36,146     |       74.3 |     75.2 |
 | Charlevoix     | 23,279      | 21,337    |       72.8 | 17,103     |       73.5 |     80.2 |
 | Grand Traverse | 79,537      | 74,536    |       72.8 | 60,668     |       76.3 |     81.4 |
@@ -436,12 +434,12 @@ nine counties analyzed:[fn:12]
 I believe the turnout value used by Dr. Frank to be the calculated value required
 to scale /registered voters/ to predicted votes using the key. Because the key is fixed
 per state while the registered voters vs. population surplus varies widely across the counties,
-a subsequent scaling factor is required to account for this. 
+a bespoke scaling factor is required to account for this.
 
 In practice, voter turnout is reported as a % of either Voting Aged Population
-(VAP, all individuals 18+ yrs old) or Voting Eligible Population (VEP, 18+ minus those inelliglble
-to vote). For example, the reported figure of 66.7% for the 2020 election is /not/ the percent
-of registered voters, but the % of estimated VEP.[fn:22]
+(VAP, all individuals 18+ yrs old) or Voting Eligible Population (VEP, 18+ minus those ineligible
+to vote). For example, the reported figure of 66.7% turnout for the 2020 election is /not/
+the percent of registered voters, but the percent of estimated VEP.[fn:22]
 
 Now, Dr. Frank certainly /could/ have used the population as the input for the prediction,
 which would have enabled using the more standard values for calculated turnout. Why didn't he?
@@ -454,9 +452,11 @@ mathematical optical illusion to work.
 \newpage
 
 Here I use the data extracted from Dr. Frank's Antrim County plot to create a 6th
-degree polymial key for the vote predicting model: =population * VAP_turnout * key=.
+degree polynomial key for the vote predicting model: =population * VAP_turnout * key=.
 
-#+begin_src R :session r :exports code :results silent :eval no
+#+begin_src R :session r :exports none :results silent :eval no
+
+### initial attempt/brain fart
 df_key <- df %>%
   filter(CTYNAME=="Antrim County") %>%
   pivot_wider(id_cols=c(CTYNAME, age_i),
@@ -465,6 +465,33 @@ df_key <- df %>%
 
 fit <- lm(vote ~ poly(pop * 0.835, 6), data=df_key)
 df_key <- df_key %>% add_column(pred2 = predict(fit, df_key))
+
+#+end_src
+
+ # redo with predicting the *ratio* of votes/reg, not votes itself!
+ # heart attack moment that I might have goofed, but both work out fine, whether you
+ # model the polynomial key (and then do reg * turnout * key) or model votes directly
+
+#+begin_src R :session r :exports code :results silent :eval no
+df_key <- df %>%
+  filter(CTYNAME=="Antrim County") %>%
+  pivot_wider(id_cols=c(CTYNAME, age_i),
+              names_from=var, values_from=val_i) %>%
+  select(CTYNAME, age_i, reg, pop, pred, vote) %>%
+  mutate(rat = vote/pop/0.835)
+
+fit <- lm(rat ~ poly(age_i, 6), data=df_key)
+df_key <- df_key %>%
+  mutate(rat2 = predict(fit, df_key)) %>%
+  mutate(pred2 = pop * 0.835 * rat2)
+#+end_src
+
+#+begin_src R :session r :exports none :results silent :eval no
+df_key %>%
+  mutate(pred2 = pop*0.835*rat2) %>%
+  select(age_i, reg, vote, pred, pred2) %>%
+  pivot_longer(cols=!age_i) %>%
+  ggplot(aes(x=age_i, y=value, group=name, color=name)) + geom_line()
 #+end_src
 
 What does this prediction look like?
@@ -473,14 +500,14 @@ What does this prediction look like?
 #+header: :file ./plots/antrim-pred-pop.pdf :width 9 :height 5
 #+begin_src R :session r :exports results :results file graphics :eval no
 df_key %>%
+  select(CTYNAME, age_i, pop, pred2, vote) %>%
   pivot_longer(cols=!c(CTYNAME, age_i)) %>%
-  filter(name != "pred") %>%
   ggplot(aes(x=age_i, y=value, color=name)) + geom_line() +
   scale_y_continuous("count") +
   scale_color_manual("",
                      breaks=c("pop", "pred2", "vote"),
-                     labels=c("Dr. Frank pop", "Pop key model",
-                              "Votes"),
+                     labels=c("Dr. Frank population", "Population-based model",
+                              "Actual votes"),
                      values=c("blue", "green3", "red")) +
   theme_bw()
 #+end_src
@@ -489,17 +516,19 @@ df_key %>%
 #+RESULTS: pred-pop
 [[file:./plots/antrim-pred-pop.pdf]]
 
-Comapred to the original Antrim County R-value of 0.993, how does this smooth prediction fare?
+Compared to the original Antrim County R-value of 0.993, how does this smooth prediction fare?
 
 #+begin_src R :session r :exports results :results output :eval no
 cor(df_key$pred2, df_key$vote)
 #+end_src
 
 #+RESULTS:
-: [1] 0.9739703
+: [1] 0.993657
 
-Contemplate this in light of another assertion by Dr. Frank in the full presentation
-presenting this fraud theory (which this brief is citing):[fn:23]
+\newpage
+
+Contemplate this in light of another assertion by Dr. Frank in his full presentation
+of this fraud theory (which this brief is citing):[fn:23]
 
 #+begin_export latex
 \begin{tabular}{p{0.1cm}|p{0.85\textwidth}}
@@ -558,14 +587,19 @@ mi_cty_all %>% group_by(CTYNAME) %>%
 [[file:./plots/all-counties-pop.pdf]]
 
 The nine counties look rather "average" compared to some of the extremes present in
-others. Ultimately, the polynomial is simply modeling turnout, and as long as this is
-rather consistent by age across the counties, changes in age
-demographics within a county are irrelavent. More population of a certain age yields more registrations at
-that age, which is multiplied by the polynomial model for turnout, and yields more votes
-for that age. That said, factors affecting turnout among an age group (e.g. a college campaign
+the others. Ultimately, this polynomial is simply modeling turnout; as long as the
+turnout for each age is rather consistent across all counties, the key will work. More
+population of a certain age yields more registrations at that age, which is multiplied by
+the polynomial model for turnout, yielding more votes for that age.
+
+That said, factors affecting turnout among an age group (e.g. a college campaign
 encouraging students to vote, or increasing voting accessibility for a certain age group)
 /would/ deviate from the state mean turnout by age, which is what this polynomial is
-fitting. Thus, these more extreme counties /may/ still break the mold.
+fitting. Thus, more extreme counties /may/ still break the mold. For example, here are the
+top and bottom three counties for <30 and >65 yrs of age:
+
+ # these code blocks were run, then manually arranged into org-mode table format for lack
+ # of knowing an easy programmatic way to do it via the code itself
 
 #+begin_src R :session r :exports none :results wrap :eval no
 mi_cty_all %>% group_by(CTYNAME) %>%
@@ -573,7 +607,7 @@ mi_cty_all %>% group_by(CTYNAME) %>%
   filter(age_i < 30) %>%
   summarize(perc = round(sum(perc), 3)) %>%
   ungroup() %>%
-  arrange(desc(perc)) %>% head()
+  arrange(desc(perc)) %>% slice(1:3, (n()-2):n())
 #+end_src
 
 #+begin_src R :session r :exports none :results wrap :eval no
@@ -582,18 +616,19 @@ mi_cty_all %>% group_by(CTYNAME) %>%
   filter(age_i > 64) %>%
   summarize(perc = round(sum(perc), 3)) %>%
   ungroup() %>%
-  arrange(desc(perc)) %>% head()
+  arrange(desc(perc)) %>% slice(1:3, (n()-2):n())
 #+end_src
 
 #+attr_latex: :align ll|ll
-| *Population < 30* |       | *Populaion > 65*    |       |
-|-------------------+-------+---------------------+-------|
-| Isabella County   | 0.481 | Keweenaw County     |  0.42 |
-| Houghton County   | 0.415 | Ontonagon County    | 0.404 |
-| Ingham County     | 0.401 | Alcona County       | 0.389 |
-| Washtenaw County  | 0.388 | Roscommon County    | 0.367 |
-| Mecosta County    | 0.373 | Montmorency County  | 0.359 |
-| Kalamazoo County  | 0.338 | Presque Isle County | 0.354 |
+| *Population < 30* |       | *Population > 65* |       |
+|-------------------+-------+-------------------+-------|
+| Isabella County   | 0.481 | Keweenaw County   |  0.42 |
+| Houghton County   | 0.415 | Ontonagon County  | 0.404 |
+| Ingham County     | 0.401 | Alcona County     | 0.389 |
+|-------------------+-------+-------------------+-------|
+| Keweenaw County   | 0.129 | Washtenaw County  | 0.152 |
+| Alcona County     | 0.121 | Ingham County     | 0.147 |
+| Ontonagon County  |  0.11 | Isabella County   | 0.131 |
 
 
 ** Correlation does not equal @@latex:\xcancel{causation}@@ accuracy
@@ -608,20 +643,22 @@ not equal /accuracy/?[fn:26] Here are some of the claims on accuracy in the brie
 - "Every other county may think they are clean. They are not. Indeed, the key works in
   Barry County with 99.6% certainty." (pg 12)
 
-A brief comment: the second item is patently false. We were told above, "...we simply
+Brief aside: the second item is patently false. We were told above, "...we simply
 graph the ratio between the black and the red, which creates the polynomial." With
-registered voters /and/ votes (i.e "results") in hand, they found a polynomial such
+registered voters /and/ votes (i.e "results") in hand, Dr. Frank found a polynomial such
 that ~votes/registered = poly~ and then proceeded to show us that, indeed, ~registered *
 poly = votes~. 
 
 The correlation coefficient is more like asking "do these variables move
 together in the same patterns?" This may seem like a nuance (doesn't moving together imply
 that one predicts the other?), but I will demonstrate that R-value does not imply accuracy
-with respect to error. Using extracted Antrim County data I computed an R-value
+with respect to error. Using Antrim County data, I computed an R-value
 of 0.990 (vs. 0.993 by Dr. Frank). This was sufficient to validate the data as reasonable
 in light of it being extracted from a screenshot. Ages were filtered to \(\leq\)90 because 
-extraction was suboptimal on the tails where curves overlapped, and error would be
-proportionally larger for such small values.
+WebPlotDigitizer was sub-optimal at the tails where curves overlapped,
+and the error would be proportionally larger for such small values.
+
+\newpage
 
 #+begin_src R :session r :exports both :results output wrap :eval no
 df_pred <- df %>%
@@ -638,9 +675,9 @@ cor(df_pred$pred, df_pred$vote)
 :end:
 
 Above, using population as a predictor resulted in a smoother curve that was still
-correlative (R=0.97), but the resulting prediction was still quite in line with actual
-votes. What if we used a different key? Here, I apply a uniform sequence from 4 through 8
-(same length as the data):
+correlative (R=0.99), but the resulting prediction was still quite in line with actual
+votes. What if we used a different key? Here, I multiply registered voters by a uniform
+sequence from 4 through 8 the same length as the data:
 
 #+begin_src R :session r :exports code :results output wrap :eval no
 df_pred <- df_pred %>%
@@ -657,7 +694,7 @@ df_pred %>% pivot_longer(cols=c(reg, pred, pred2, vote)) %>%
   facet_wrap(~CTYNAME) +
   scale_x_continuous("age") + scale_y_continuous("population") +
   scale_color_discrete(breaks=c("reg", "vote", "pred", "pred2"),
-                       labels=c("registered", "votes", "Dr. Frank", "my key")) +
+                       labels=c("registered", "votes", "Dr. Frank", "my awful prediction")) +
   theme_bw()
 
 #+end_src
@@ -677,10 +714,12 @@ cor(df_pred$pred2, df_pred$vote)
 [1] 0.9930492
 :end:
 
+\newpage
+
 How... is this possible? The correlation coefficient is useful for, well, correlating, and
 the data /do/ correlate: "The red line is almost a direct image of the black line, but
-just lower on the graph." (pg 11) My result is just higher on the graph. This toy example
-illustrates that correlation does not mean accurate. We can verify this further via a
+just lower on the graph." (pg 11) Indeed, my result is just higher on the graph. This toy example
+illustrates that correlation != accuracy. We can verify this further via a
 residual plot of ~error = (prediction-actual)~:[fn:10] 
 
 #+name: resid
@@ -690,7 +729,7 @@ df_pred %>%
   mutate(error = pred-vote) %>%
 ggplot(aes(x=age_i, y=error)) + geom_point() + 
   scale_x_continuous("age") +
-  scale_y_continuous("error, prediction-votes") +
+  scale_y_continuous("error, prediction - votes") +
   theme_bw()
 #+end_src
 
@@ -700,7 +739,7 @@ ggplot(aes(x=age_i, y=error)) + geom_point() +
 
 We're seeing errors of +30 to -20 across the range of ages, and if you didn't take note in
 earlier plots, Antrim County is /tiny/. Here's the prediction error as a percent of the
-voters at each age, highlighting that "99.3% correlation" can still manage -15 to 25%
+voters at each age, highlighting that "99.3% correlation" can still manage -15% to 25%
 error.
 
 #+begin_src R :session r :exports none :results silent :eval no
@@ -719,7 +758,7 @@ df_pred %>%
   mutate(perc = (pred-vote)/vote) %>%
 ggplot(aes(x=age_i, y=perc)) + geom_point() + 
   scale_x_continuous("age") +
-  scale_y_continuous("error, (prediction-votes)/votes") +
+  scale_y_continuous("error, (prediction - votes) / votes") +
   theme_bw()
 #+end_src
 
@@ -727,13 +766,15 @@ ggplot(aes(x=age_i, y=perc)) + geom_point() +
 #+RESULTS: resid-perc
 [[file:./plots/antrim-resid-perc.pdf]]
 
+\newpage
+
 The residuals indicate a bias in the prediction. They should center about the line
 ~error=0~, be randomly distributed, and have no obvious trend across the independent variable,
 =age=. We have a downward trend in this case, which I'll point out is in the opposite
-direction of what this theory proposes. The key is creating a prediction that's /too high/ given
+direction of what this theory proposes. The key is creating a prediction that's /too high/ vs.
 the actual result for younger ages (+error) and /too low/ for older ages (-error).
 
-Root Mean Squared Error is a better assessment of accuracy, and is as follows for all 9
+Root Mean Squared Error is a better assessment of accuracy, and is shown for all nine
 counties, computed using Dr. Frank's prediction (light blue) and reported votes (red) in
 the plots:
 
@@ -751,17 +792,17 @@ df %>%
 
 #+RESULTS:
 :results:
-| *County*              | *RMSE, absolute* | *RMSE, percent* |
-|-----------------------+------------------+-----------------|
-| Antrim County         |             16.3 |           0.115 |
-| Barry County          |             22.9 |           0.068 |
-| Charlevoix County     |             14.9 |           0.093 |
-| Grand Traverse County |             37.2 |           0.062 |
-| Kent County           |            135.6 |            0.04 |
-| Livingston County     |             59.6 |           0.052 |
-| Macomb County         |            145.7 |            0.03 |
-| Oakland County        |            320.2 |           0.042 |
-| Wayne County          |            367.7 |           0.039 |
+| *County*              | *RMSE, absolute* | *RMSE, fraction* |
+|-----------------------+------------------+------------------|
+| Antrim County         |             16.3 |            0.115 |
+| Barry County          |             22.9 |            0.068 |
+| Charlevoix County     |             14.9 |            0.093 |
+| Grand Traverse County |             37.2 |            0.062 |
+| Kent County           |            135.6 |             0.04 |
+| Livingston County     |             59.6 |            0.052 |
+| Macomb County         |            145.7 |             0.03 |
+| Oakland County        |            320.2 |            0.042 |
+| Wayne County          |            367.7 |            0.039 |
 :end:
 
 \newpage
@@ -771,19 +812,19 @@ df %>%
 Having examined several math-based voter fraud theories, they tend to share some
 commonalities:
 
-- as mentioned, the data, methodology, and code aren't shared
-- scientists poke at their work, explore counter-explanations, and discuss limitations ahead of time; 
-  these theories lack almost any rigor, yet the authors (and/or their attorneys) seem
+- the data, methodology, and code aren't shared
+- honest scientists should poke at their work, explore counter-explanations, and discuss
+  limitations ahead of time; these theories lack almost any rigor, yet the authors (and their attorneys) seem
   comfortable "publishing" to the courts to support accusations of the utmost gravity 
-- the theories ultimateily contain some type of mathematical sleight of hand to portray
+- the theories ultimately contain some type of mathematical sleight of hand to portray
   something as "odd" or "weird" without ever defending this claim; we're never given a
-  "non-weird" refrence for context (cf. the birthday problem sounds "weird" despite it
+  "non-weird" reference for context (cf. the birthday problem sounds "weird" despite it
   just being the math of probability manifesting in real life)[fn:11]
 
 Given all that's been said, then, what /is/ the trick? Across theories I've analyzed, it
 often amounts to what /isn't/ being shown more than what is. For starters, we're
 given no references to what this looks like in previous years, other states, and so
-on. Theories focus entirely on the swing states; what would this anaylsis look like in
+on. Theories focus entirely on the swing states; what would this analysis look like in
 states that have zero justification to cheat? What would this analysis look like in states
 like Wyoming, Idaho, Utah, Oklahoma and West Virginia who all carried a ~20 point
 Republican margin?[fn:24] 
@@ -798,8 +839,8 @@ what would this look like with ~fraud glasses on?
 
 What would "break" this explanation? How would it /not/ be the case that these curves
 match? In other words, given some e.g. spike of 73yr olds who exist in the population, why
-wouldn't that spike in demographics show up in the number of 73yr olds who register or the
-number of 73yr olds who vote. Why /wouldn't/ these values be in proportion to one another?
+wouldn't that spike in demographics show up in the number of 73yr olds who register and the
+number of 73yr olds who vote? Why /wouldn't/ these values be in proportion to one another?
 
 I think the true "magic trick" in this theory was accidental: the Census Bureau doesn't
 have data for individual ages, and thus a smooth approximation was used. Imagine if the
@@ -813,7 +854,7 @@ age demographics of the population itself.
 Now, there are certainly different turnout rates across the ages, but there's no "ledge" where suddenly
 a lower turnout among e.g. 26yr olds transitions to 100% turnout at age 27. Turnout is
 just an aggregate measure of contributing factors: engagement with politics, awareness,
-motivation, resonating issues in that election, mobiity, other commitments, and so
+motivation, resonating issues in that election, mobility, other commitments, and so
 on. While we can point to characteristics among "younger" vs. "older," we cannot do the
 same for 26 vs. 27yr olds. Turnout differences across ages is a smooth
 transition, and /that/ is all this polynomial is. Far from having discovered a
@@ -829,7 +870,7 @@ corrected upward by the \xcancel{key} scaling factor to match reality.
 
 The root of this trick is that the population, as plotted, doesn't look like the other curves.
 How /could/ we find out if both registrations and votes truly looked like the population?
-The Census has election data for single years of age all the way back to 1998, containing
+The Census has national election data for single years of age all the way back to 1998, containing
 Voting Aged Population (VAP), Voting Eligible Population (VEP), registered voters, and
 votes cast.[fn:13]  
 
@@ -938,7 +979,7 @@ how this is portrayed by Dr. Frank and DePerno (pg 10):
 \end{tabular}
 #+end_export
 
-There is no regulation at work other than the mere fact that individuals who exist
+There is no regulation at work other than the mere fact that the individuals who exist
 decide if they will register and subsequently vote. Here's an analogy:
 - cars in the US have some demographics of color (red, silver, white, etc.)
 - cars in the US also get in accidents
@@ -964,12 +1005,12 @@ mimics both the registered voters and votes. This turned out to be quite difficu
 couldn't find population by individual age /anywhere/ via any Census Data. I did stumble
 upon an age pyramid for the US which was suitable for extraction via
 WebPlotDigitizer.[fn:15] For transparency, I do not know how this data was obtained or
-inferred, though I have made a request for clairifation.[fn:25] Using this US individual age
+inferred, though I have made a request for clarification.[fn:25] Using this US individual age
 data, we can attempt to connect the dots between various data sets to better simulate a county
 population estimate:[fn:30] 
 
 - US and county populations by age group, represented as =us_age_group= and =cty_age_group=
-- the population for individual ages extracted from the age-pyramid, =us_age_pop=
+- the population for individual ages extracted from the age pyramid, =us_age_pop=
 - the US and total county populations, =us_pop_total=, =cty_pop_total=
 - relative frequencies for each age group: ~us_age_freq =
   us_age_group/sum(us_age_group)~ and ~cty_age_freq = cty_age_group/sum(cty_age_group)~ 
@@ -1181,7 +1222,7 @@ pattern-seekers, and seeing these patterns plotted and graphed for the first tim
 jolts the brain's recognition software.
 
 The primary tactic used by fraud theories is what I call "argument by inception:" namely,
-this "phenomonen" never existed in your mind before you were told to think of it. When
+this "phenomenon" never existed in your mind before you were told to think of it. When
 have you /ever/ paid attention to age demographic data before you were told that voter
 registrations matching the shape of votes collected is "weird"? When have you /ever/
 wondered about the number of unique last names in Pennsylvania until someone checked?[fn:27]
@@ -1319,7 +1360,7 @@ the original claims:
 |-----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | The blue, black, and red curves are "100% data"                                                                             | The blue population curve was scaled and smoothed through 5yr age range estimates; it is not raw data                                                                                             |
 |-----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Registered voters are near or exceed populations in various counties                                                        | Agreed;  Michigan should clean up its rolls, but we care about /votes/ vs population, not /regstered voters/ vs population.                                                                       |
+| Registered voters are near or exceed populations in various counties                                                        | Agreed;  Michigan should clean up its rolls, but we care about /votes/ vs population, not /registered voters/ vs population.                                                                       |
 |-----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | There are 66,000 votes that do not match IDs in the database                                                                | I was unable to verify this, it is not explained, and it is not apparent where to find this data at the source cited (vote.michigan.gov/VoterCounts/Index)                                        |
 |-----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1329,7 +1370,7 @@ the original claims:
 |-----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | The ability to predict votes from registered voters using a 6th order polynomial is indicative of a manipulative  algorithm | Two variables that both correlate with the same upstream variable will also correlate                                                                                                             |
 |-----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Obtaining high R-values showed that that the predictions were extremely accurate                                            | RMSE is a more accurate gauge of error, and ranged from 3-11% for the nine countes; in addition, a preposterous, invented prediction of votes still achieved R=0.993                              |
+| Obtaining high R-values showed that that the predictions were extremely accurate                                            | RMSE is a more accurate gauge of error, and ranged from 3-11% for the nine counties; in addition, a preposterous, invented prediction of votes still achieved R=0.993                              |
 |-----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | R-values > 0.8 will rarely occur when human behavior is at play                                                             | We "predicted" drivers from female smokers by age group; R=0.993 and RSME=2.7%                                                                                                                    |
 |-----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1340,7 +1381,7 @@ the original claims:
 
 This theory amounts to being surprised that  population age demographics manifest in
 other data across age demographics. To falsify this counter-hypothesis, Dr. Frank only needs to
-find /one/ of any number of occurences that do not fit this explanation. Some are proposed
+find /one/ of any number of occurrences that do not fit this explanation. Some are proposed
 here, with others left as an exercise to the theorist and his lawyer:
 
 - show that a state with a high +R or high +D margin in the 2020 election (e.g. WY, ID,
@@ -1355,7 +1396,7 @@ here, with others left as an exercise to the theorist and his lawyer:
   same trends
 
 Merely saying something is "weird" does not make it so. When surprises emerge, it is a
-better practice to throughly scrutinize one's own mind instead of so easily blaming
+better practice to thoroughly scrutinize one's own mind instead of so easily blaming
 reality.[fn:31] 
 
 
@@ -1393,7 +1434,7 @@ may provide a more intuitive definition of what correlation means: https://en.wi
 [fn:23] =Exhibit 4.pdf=, available in the DePerno Law collection of Bailey v. Antrim County documents:
 https://www.depernolaw.com/bailey-documents.html  
 
-[fn:22] See footnote for reported turnout on Wikipedia for an expalanation of the calculation:
+[fn:22] See footnote for reported turnout on Wikipedia for an explanation of the calculation:
 https://en.wikipedia.org/wiki/2020_United_States_presidential_election#cite_note-4  
 
 [fn:21] "Official Election Results November 3, 2020 2nd amended." http://www.antrimcounty.org/elections.asp 
@@ -1403,7 +1444,7 @@ these plots on DePerno's twitter page. "Basically there are too many ballots. No
 https://twitter.com/imtwin64/status/1381030810132877313. "...When you have more votes then you have ballots you have fraud."
 https://twitter.com/joe62160339/status/1382438444966764546 
 
-[fn:19] Amtrim County registered voters listed as 21,945
+[fn:19] Antrim County registered voters listed as 21,945
 (2021-04-17). https://mvic.sos.state.mi.us/VoterCount.
 
 [fn:18] Population Estimates and Projections (2010-2019). https://www.census.gov/data/developers/data-sets/popest-popproj.html 
@@ -1420,9 +1461,9 @@ https://en.wikipedia.org/wiki/Demographics_of_the_United_States#/media/File:USA2
 
 [fn:14] https://www.liveabout.com/most-popular-car-colors-4160630 
 
-[fn:13] Starting in 2004 and earlier, total demographics were reproted as "Total
+[fn:13] Starting in 2004 and earlier, total demographics were reported as "Total
 Population" (VAP) along with another column for "non-citizens." This was used to calculate
-VEP by subracting the non-citizen count from VAP. From 2006 onward, the data contains both
+VEP by subtracting the non-citizen count from VAP. From 2006 onward, the data contains both
 numbers for the total population (VAP) and US citizens (VEP).
 
 [fn:12] https://mielections.us/election/results/2020GEN_CENR_TURNOUT.html 
